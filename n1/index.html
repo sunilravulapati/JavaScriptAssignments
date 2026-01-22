@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Learning Notes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <nav class="sidebar">
+            <div class="logo">My JS Notes</div>
+            <ul class="nav-links">
+                <li class="active" onclick="showSection('fundamentals')">Fundamentals</li>
+                <li onclick="showSection('functions')">Functions</li>
+                <li onclick="showSection('objects')">Objects</li>
+                <li onclick="showSection('arrays')">Arrays</li>
+                <li onclick="showSection('hof')">Higher-Order Functions</li>
+                <li onclick="showSection('practical')">Real World Examples</li>
+                <li onclick="showSection('summary')">Summary & Cheat Sheet</li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            
+            <section id="fundamentals" class="topic-section active">
+                <h1>JavaScript Fundamentals</h1>
+                <p class="intro">Core concepts including loops, operators, and data types.</p>
+                
+                <div class="card">
+                    <h3>Loops & Iteration</h3>
+                    <p>You explored different ways to iterate over data.</p>
+                    <ul>
+                        <li><strong>for...of:</strong> Best for iterating over arrays (values).</li>
+                        <li><strong>for...in:</strong> Best for iterating over object properties (keys).</li>
+                    </ul>
+<pre><code>// From 1.js & 2.js
+let marks = [45, 67, 89];
+for(let v of marks) { total += v; }
+
+for(let key in empObj) { console.log(key); }</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Mutability</h3>
+                    <p><strong>Primitives:</strong> Immutable (cannot change once created).<br>
+                    <strong>References (Arrays/Objects):</strong> Mutable (can be modified).</p>
+                </div>
+            </section>
+
+            <section id="functions" class="topic-section">
+                <h1>Functions</h1>
+                <p class="intro">Different ways to define and use functions.</p>
+
+                <div class="card">
+                    <h3>3 Ways to Define</h3>
+                    <div class="comparison">
+                        <div>
+                            <h4>Declaration</h4>
+                            <pre><code>function f1(a,b){ return a+b; }</code></pre>
+                        </div>
+                        <div>
+                            <h4>Expression</h4>
+                            <pre><code>let f2 = function(a,b){ return a+b; }</code></pre>
+                        </div>
+                        <div>
+                            <h4>Arrow</h4>
+                            <pre><code>let f3 = (a,b) => a+b;</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Callback Functions</h3>
+                    <p>Passing a function as an argument to another function. Essential for asynchronous operations (like server fetching), though your notes focused on the syntax.</p>
+<pre><code>// From 4.js
+function test1(a){ console.log(a()) }
+
+test1(function(){ return 123; }) 
+// Anonymous function passed as argument</code></pre>
+                </div>
+            </section>
+
+            <section id="objects" class="topic-section">
+                <h1>Objects</h1>
+                <p class="intro">Key-value pairs, methods, and the `this` keyword.</p>
+
+                <div class="card">
+                    <h3>Object Operations</h3>
+                    <ul>
+                        <li><strong>Access:</strong> Dot notation (`obj.name`) or Bracket (`obj["name"]`).</li>
+                        <li><strong>Dynamic:</strong> You can add/delete properties on the fly.</li>
+                        <li><strong>Freeze:</strong> <code>Object.freeze(obj)</code> stops modifications.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Destructuring & Methods</h3>
+<pre><code>// From 2.js
+let student = {
+    name: "sam",
+    marks: [90, 80],
+    getData: function() {
+        // 'this' refers to current object
+        console.log(this.marks[0]); 
+    }
+}
+
+// Destructuring
+let {name, marks} = student;</code></pre>
+                </div>
+            </section>
+
+            <section id="arrays" class="topic-section">
+                <h1>Arrays</h1>
+                <p class="intro">Ordered collections and basic manipulation methods.</p>
+
+                <div class="card">
+                    <h3>Adding & Removing</h3>
+                    <table class="reference-table">
+                        <tr><th>Method</th><th>Action</th><th>Position</th></tr>
+                        <tr><td><code>push()</code></td><td>Add</td><td>End</td></tr>
+                        <tr><td><code>pop()</code></td><td>Remove</td><td>End</td></tr>
+                        <tr><td><code>unshift()</code></td><td>Add</td><td>Start</td></tr>
+                        <tr><td><code>shift()</code></td><td>Remove</td><td>Start</td></tr>
+                        <tr><td><code>splice()</code></td><td>Add/Remove</td><td>Anywhere</td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <section id="hof" class="topic-section">
+                <h1>Higher-Order Functions</h1>
+                <p class="intro">The modern way to handle data without standard `for` loops.</p>
+
+                <div class="card">
+                    <h3>Map (Transform)</h3>
+                    <p>Creates a new array by modifying every element.</p>
+<pre><code>// From 5.js
+let salaries = [100, 200];
+let up = salaries.map(s => s + 50); 
+// Result: [150, 250]</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Filter (Select)</h3>
+                    <p>Creates a new array with only elements that pass a test.</p>
+<pre><code>// From 7.js
+let res = students.filter(s => s.age < 20);</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Reduce (Aggregate)</h3>
+                    <p>Boils an array down to a single value (sum, max, etc).</p>
+<pre><code>// From 11.js
+let total = cart.reduce((acc, s) => 
+    acc + (s.price * s.quantity), 0
+);</code></pre>
+                </div>
+            </section>
+
+            <section id="practical" class="topic-section">
+                <h1>Real World Examples</h1>
+                <p class="intro">Logic from your files applied to real scenarios.</p>
+
+                <div class="card example-card">
+                    <h3>🛒 The Shopping Cart (11.js)</h3>
+                    <p>You combined <code>filter</code> to check stock, <code>map</code> to calculate line-item prices, and <code>reduce</code> for the grand total.</p>
+                </div>
+
+                <div class="card example-card">
+                    <h3>🎓 Student Management (7.js)</h3>
+                    <p>You used <code>map</code> to selectively update a specific student's data (incrementing Manoj's age) while leaving others unchanged.</p>
+<pre><code>students.map(s => {
+    if(s.name === 'manoj') {
+        return { ...s, age: s.age + 2 }
+    }
+    return s;
+})</code></pre>
+                </div>
+            </section>
+            <section id="summary" class="topic-section">
+    <h1>Course Summary</h1>
+    <p class="intro">A quick reference cheat sheet of all topics covered.</p>
+
+    <div class="card">
+        <h3>⚡ Function Syntax Quick Guide</h3>
+        <table class="reference-table">
+            <tr>
+                <th>Type</th>
+                <th>Syntax</th>
+                <th>Use Case</th>
+            </tr>
+            <tr>
+                <td><strong>Declaration</strong></td>
+                <td><code>function sum(a,b) { ... }</code></td>
+                <td>Code level control, hoisting.</td>
+            </tr>
+            <tr>
+                <td><strong>Expression</strong></td>
+                <td><code>const sum = function(a,b) { ... }</code></td>
+                <td>Application level control.</td>
+            </tr>
+            <tr>
+                <td><strong>Arrow</strong></td>
+                <td><code>const sum = (a,b) => a+b</code></td>
+                <td>Concise, one-liners, modern standard.</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h3>📦 Array Methods Cheat Sheet</h3>
+        <p>Distinguishing between methods that change the original array (Mutable) and those that create a new one (Immutable).</p>
+        <br>
+        <table class="reference-table">
+            <tr>
+                <th>Goal</th>
+                <th>Method</th>
+                <th>Returns</th>
+                <th>Original Array?</th>
+            </tr>
+            <tr>
+                <td>Add to End</td>
+                <td><code>push()</code></td>
+                <td>New Length</td>
+                <td>Modified ✏️</td>
+            </tr>
+            <tr>
+                <td>Remove End</td>
+                <td><code>pop()</code></td>
+                <td>Removed Item</td>
+                <td>Modified ✏️</td>
+            </tr>
+            <tr>
+                <td>Transform</td>
+                <td><code>map()</code></td>
+                <td>New Array</td>
+                <td>Unchanged 🔒</td>
+            </tr>
+            <tr>
+                <td>Select/Filter</td>
+                <td><code>filter()</code></td>
+                <td>New Array</td>
+                <td>Unchanged 🔒</td>
+            </tr>
+            <tr>
+                <td>Calculate/Sum</td>
+                <td><code>reduce()</code></td>
+                <td>Single Value</td>
+                <td>Unchanged 🔒</td>
+            </tr>
+            <tr>
+                <td>Find Item</td>
+                <td><code>find()</code></td>
+                <td>Item</td>
+                <td>Unchanged 🔒</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h3>🔑 Object Essentials</h3>
+        <ul>
+            <li><strong>Creation:</strong> <code>let obj = { key: value }</code></li>
+            <li><strong>Access:</strong> Dot <code>obj.key</code> or Bracket <code>obj["key"]</code></li>
+            <li><strong>Destructuring:</strong> <code>let { name, age } = obj;</code> — extracts properties into variables.</li>
+            <li><strong>Freezing:</strong> <code>Object.freeze(obj)</code> — makes the object immutable (cannot change properties).</li>
+            <li><strong>Traversal:</strong> Use <code>for...in</code> loops for objects.</li>
+        </ul>
+    </div>
+</section>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
