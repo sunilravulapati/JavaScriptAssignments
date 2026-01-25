@@ -1,0 +1,42 @@
+Asynchronous Javascript
+
+->js is a single threaded programming language
+->a thread can do one task at a time
+->browser js run time = js engine + web apis + event loop
+->node js run time = js engine + node apis + event loop
+
+->clg is non blocking
+-> all loops in js execute synchronously
+->these web apis or node js apis have multiple threads
+->setTimeout method is like java's sleep method , it takes two arguments one is the callback function and the other one is the timeOut time in ms, it executes Asynchronously
+->non-blocking Asynchronous / blocking Asynchronous / blocking synchronous / non blocking synchronous -> every instruction is done by the js engine
+
+setTimeout(() => {
+    clg("skdjfa")
+},5000)
+what is happening here is any statement before the setTimeout will be executed by the js engine.........when the turn is for the setTimeout then the js engine will hand over this to node js apis which is going to wait for the 5secs and then the event loop is called which is going to call the callback function which is going to send the result back to js engine
+->synchronous blocking 
+->synchronous non blocking 
+->Asynchronous blocking 
+->Asynchronous non blocking 
+
+Timer Functions
+setTimeout(() => {},t)
+setInterval(()=>{},t)
+
+->delayed actions, otp,auto logout/session timeout,polling/auto refresh data
+->they execute asynchronously
+
+Promises
+there are three states
+->pending is the first state, until a result is done then only we move to fulfilled or rejected state
+->two party's are involved in a Promise
+->there are two ways to consume a promise: then and catch : (old) , async and await : (new)
+
+
+->json = js object notation, this is a nuetral data format which can be understood by any technology
+->xml is also a neutral data format which is used to transfer data, this is not used nowadays as json is being used
+
+
+API(Application Program Interface)
+->apis communicate with each other by exchanging json

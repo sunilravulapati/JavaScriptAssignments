@@ -110,13 +110,17 @@ console.log(allPaidCourses)
 
 //module - 4
 let roleNames = Object.keys(roles);
+console.log(roleNames)
 
 let canStudentDelete = roles.student.includes("delete");
+console.log(canStudentDelete)
 
 let allPermissions = Object.values(roles).flat();
 let uniquePermissions = [...new Set(allPermissions)];
+console.log(uniquePermissions)
 
 let updatedRoles = {
   ...roles,
   moderator: ["update", "view"]
 };
+console.log(updatedRoles)
