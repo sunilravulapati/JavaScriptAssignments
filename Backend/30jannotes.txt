@@ -1,0 +1,45 @@
+REST API - REpresentational State Transfer API
+Endpoints: it is a url where your api can be accessed to perform specific operations on resources
+ex: http:localhost:3000/users/123
+    /* base url      *//*Endpoint*/
+Endpoint rules: 1. Use nouns + http methods, not verbs
+                    ex: GET /users
+                2. Use plural nouns
+                3. Use lowercase and  hyphens
+                    ex: GET /user-profiles
+
+
+NodeMon: nodemon is used to automate....whenever we are making changes...we have to restart our server, for this we use nodemon
+        install: npm install -g nodemon
+
+-> only post and put request contains the body
+
+
+->express contains few middlewares: one of them is app.use(exp.json())
+->creation of custom middleware:
+    function middleware1(req,res,next){ //next is for forwarding the request to the next
+        //receive a request,handle and send responses
+        console.log("middleware1 executed")
+    }
+
+
+
+data - processed info is data 
+data vs information
+database - storage space for storing data
+db server 
+dbms
+
+
+mongodb uses bson - binary json
+mongodb operations
+create : db.collection_name.insertOne(),insertMany([{}])
+update : db.collection_name.updateOne(condition,new),updateMany(condition,[])
+read : db.collection_name.findOne(condition) - first one in collection or find only one(ex : db.firstone.findOne({name:{$eq:"vikas"}})
+) , find() - all
+delete : db.collection_name.deleteOne(),deleteMany()
+
+
+db.firstone.findOne({name:"vikas"}) - only for equality
+
+$eq,$neq,gt,gte,lt,lte,in,nin
