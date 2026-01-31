@@ -1,0 +1,83 @@
+REST API - REpresentational State Transfer API
+Endpoints: it is a url where your api can be accessed to perform specific operations on resources
+ex: http:localhost:3000/users/123
+    /* base url      *//*Endpoint*/
+Endpoint rules: 1. Use nouns + http methods, not verbs
+                    ex: GET /users
+                2. Use plural nouns
+                3. Use lowercase and  hyphens
+                    ex: GET /user-profiles
+
+
+NodeMon: nodemon is used to automate....whenever we are making changes...we have to restart our server, for this we use nodemon
+        install: npm install -g nodemon
+
+-> only post and put request contains the body
+
+
+->express contains few middlewares: one of them is app.use(exp.json())
+->creation of custom middleware:
+    function middleware1(req,res,next){ //next is for forwarding the request to the next
+        //receive a request,handle and send responses
+        console.log("middleware1 executed")
+    }
+
+
+
+data - processed info is data 
+data vs information
+database - storage space for storing data
+db server 
+dbms
+
+
+mongodb uses bson - binary json
+mongodb operations
+create : db.collection_name.insertOne({}),insertMany([{}])
+update : db.collection_name.updateOne(condition,new),updateMany(condition,[{}])
+read : db.collection_name.findOne(condition) - first one in collection or find only one(ex : db.firstone.findOne({name:{$eq:"vikas"}})
+) , find() - all
+delete : db.collection_name.deleteOne(condition),deleteMany(condition)
+
+
+db.firstone.findOne({name:"vikas"}) - only for equality
+
+Query comparison operators: $eq,$neq,$gt,$gte,$lt,$lte,$in,$nin
+
+31 jan
+
+{
+  _id: ObjectId('697d80253b1fe9761c2391f0'),
+  eno: 100,
+  name: 'ravi',
+  skills: [
+    'js',
+    'css',
+    'react'
+  ],
+  address: {
+    city: 'hyd',
+    pincode: 500026
+  }
+}
+
+->whenever we are trying to read nested documents(in js it is objects)
+  db.emp.findOne({"address.city":"hyd"})
+->whenever we want to read something from an array
+  db.emp.findOne({skills:"js"}) -> use this only for single element comparison
+->db.emp.findOne({skills:["js","react"]}) -> will not work as it will assume the array and try to find it and also if the 
+  order is not same then it will return null as the output
+->whenever we searching for multiple then we should use $all(used for arrays mainly)(this helps even if the order is not same!)
+  ex: db.emp.findOne({skills:{$all:["js","css"]}})
+  $in can also be used when we are trying to compare not only for arrays
+->db.emp.updateOne({eno:100},{$set:{name:"ravi kumar"}})
+->db.emp.updateOne({eno:100},{$set:{"address.street":"r1"}}) -> if there is a street property then the value is changed else it will be added
+->$set is used to add or update a property(top level or nested)
+->to delete a property we use $unset
+  db.emp.updateOne({eno:100},{$unset:{name:""}})
+  db.emp.updateOne({eno:100},{$unset:{"address.pincode":""}})
+->array update operators: $addToSet : adds new if not exists,$push : adds even if it exists
+                          $each : add multiple ex:db.emp.updateOne({eno:100},{$push:{skills:{$each:["nodejs","java"]}}})
+                          $pop : remove first or last ex: db.emp.updateOne({eno:100},{$pop:{skills:1(last)}/-1(first)}}) 
+                          $pull : removes one element matched with a condition ex: db.emp.updateOne({eno:100},{$pull:{skills:"css"}})
+

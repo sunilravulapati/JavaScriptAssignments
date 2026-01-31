@@ -1,0 +1,13 @@
+Connecting to MongoDB Database
+----------------------------------
+1. install mongoose(MongoDB ODM - object document mapping tool) and connect to MongoDB server
+   npm install mongoose
+after successful start of db we should start our http server
+
+2. create schema of resource 
+3. create model of that schema
+4. perform db operations on that model
+
+
+all db operations are blocking operations
+whenever a resource is created then only the schema validation will work, while modifications they wont work
