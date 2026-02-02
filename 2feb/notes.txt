@@ -1,0 +1,68 @@
+->when does the data get inserted and validated is when the save() is called or when we use insertOne(),insertMany() methods.
+->validators will only work while insertion, for them to work even in updations we have to add runValidators: true them
+->we will have to provide default error handling middleware, when some error occurs then express will invoke this middleware....else we had to have a lot of try catch blocks
+
+
+PROJECTIONS: retrieving the fields that we want
+->field level filtering
+->find({},{username:1,age:1})
+->object id will be shown automatically........ to not project it find({condition},{username:1,_id:0,age:1})
+
+Unique property
+->this is used to add uniqueness to fields
+->sometimes there will be no object id(though mongodb provides it, not a lot of the other services show us the object id for our accounts).......and also identifying which user is difficult.....to resolve this we add a unique property
+->
+
+
+Saving Password
+->rule of thumb: whenever we are saving password dont make them be stored as a plain text
+->two ways: encryption(this is reversible, if the key is known then it is an issue), hashing(irreversible, once hashed we cant even unhash it)
+->only hashed passwords must be stored in the database
+->tool: bcrypt hash online generator
+->module: bcryptjs
+-> import {hash} from 'bcryptjs'
+    //hash password
+    let hashedPassword = await hash(req.body.password,12) // 12 means cost factor
+    //replace the password
+    newUserDoc.password = hashedPassword
+
+
+Authentication
+->every api has two routes: public route and protected routes
+->routes accessible by everyone/any user: public routes, routes accessible to authenticated users: protected routes
+->by default every route is public route........if we add security then only we can make it protected route
+->user authentication(technical term) / user login(simple term) means submitting credentials and getting tokens....it is same as pay the amt and get the ticket
+->once the token is received by the user then he/she is an authenticated user
+->steps
+    1. UserAPI gets the post request
+    2. verify the username
+    3. if they matched, then compare the plain password with hashed password
+    4. if the passwords match, create a JWT(JSON WEB TOKEN) token / generate an encrypted token
+    5. sends the token to client app / send response back to the client
+
+JSON WEB TOKEN(JWT)
+->once the user creds are verified, then the login route creates a jwt token
+->npm i jsonwebtoken
+->expiresIn: 10(secs) / "10d" / "1w" -> usually gmail,facebook gives the token for 7 days but bank apps give it for 1 min only
+
+
+=>authenticated users and authorised users are not same: once authentication is done then only we can authorize the users
+
+level 400:
+400 - bad request
+401 - unauthorised
+404 - not found
+
+
+Storage of token in browser
+tokens can be stored in local storage,session storage and cookies
+=>local and session storage content can be accessible by js of the browser.
+=>In local storage and session storage tokens can be read easily through browser(localStorage.getItem(key)) which endangers - easy to access and prone to hackers
+=>normal cookie can also be accessible by js of the browser
+=>http only cookies cant be accessible to the js of the browser. so this is the safest place to store jwt token after user authentication
+=>cookies - browser can also read if we dont check httponly, once it is checked the tokens cant be accessed by browser.....accessible to only server
+
+
+Making Authenticated Requests
+->when client application makes request after successful login, the httponly cookie will be attached to every request automatically
+->the middleware in express can extract the cookie from request using cookie-parser module

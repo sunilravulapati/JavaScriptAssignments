@@ -1,6 +1,19 @@
 ### read all users
 GET http://localhost:4000/user-api/users
 
+### read users with projection
+GET http://localhost:4000/user-api/user
+
+
+### user authentication
+POST http://localhost:4000/user-api/auth
+Content-Type: application/json
+
+{
+    "username" : "ravi",
+    "password" : "ravi123"
+}
+
 ### read user by ObjectId
 GET http://localhost:4000/user-api/users/697dba7fc400871354c44fcd
 
@@ -9,8 +22,8 @@ POST http://localhost:4000/user-api/users
 Content-Type: application/json
 
 {
-    "username" : "anurag",
-    "password" : "anurag123",
+    "username" : "ravi",
+    "password" : "ravi123",
     "age" : 22
 }
 
@@ -26,6 +39,10 @@ Content-Type: application/json
 
 ### delete user by ObjectId
 DELETE http://localhost:4000/user-api/users/697dbcb848bd932b00d62aa5
+
+
+###protected route
+GET http://localhost:4000/user-api/test
 
 
 ### --------------

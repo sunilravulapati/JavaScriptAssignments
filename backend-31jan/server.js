@@ -2,6 +2,8 @@ import exp from 'express';
 import { userApp} from './APIs/UserAPI.js';
 import { productApp } from './APIs/ProductAPI.js';
 import { connect } from 'mongoose';
+import cookieParser from 'cookie-parser'
+
 const app = exp();
 const port = 4000
 
@@ -24,6 +26,8 @@ connectDB();
 
 //if path starts  with /user-api then forward the request to userApp
 app.use(exp.json())
+//add cookie parser middleware
+app.use(cookieParser())
 app.use('/user-api', userApp)
 app.use('/product-api',productApp)
 
