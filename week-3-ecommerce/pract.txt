@@ -22,7 +22,7 @@ import {connect} from 'mongoose'
 
 async function connectDB(){
     try{
-        let res = await connect('mongodb://localhost:4000/<database_name>')
+        let res = await connect('mongodb://localhost:27017/<database_name>')
         app.listen(4000,()=>console.log("listening to port 4000"))
         console.log("db connection success!")
     }
