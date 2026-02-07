@@ -7,6 +7,8 @@ const app = exp();
 
 2. body parser middleware - without this put and delete request wont work properly
 app.use(exp.json())
+  ->import cookieParser from 'cookie-parser';  
+    app.use(cookieParser()); // Place this near app.use(exp.json())
 
 3. error handling middleware - keep this at the end so that it doesnt interfere with the other parsers
 function errorHandler(err,req,res,next){
@@ -57,6 +59,51 @@ const userSchema = new Schema({
 })
 export const UserModel = model("<collection_name(very important....if wrong is given then a lot of problems we will caused and it should be singular)>",userSchema)
 
+example:
+import {Schema,model} from 'mongoose'
+
+// const cartSchema = new Schema({
+//     product:{
+//         type:Schema.Types.ObjectId, //refers to the id of the product but doesnt know its internal structure
+//         ref: "ecomDB" //name of the product model
+//     }
+// })
+const cartSchema = new Schema({
+    product:{
+        type:Schema.Types.ObjectId,
+        ref:"ecomDB"
+    },
+    quantity:{
+        type:Number,
+        default:1,
+    }
+})
+
+const userSchema = new Schema({
+    name:{
+        type:String,
+        required:[true,"name is required"]
+    },
+    email:{
+        type:String,
+        required:[true,"email is required"],
+        unique:[true,'duplicate user!'] //not a validator but only an option/helper, add to index
+    },
+    password:{
+        type:String,
+        required:[true,"password is required"],
+        minlength:[4,"min length is 4"]
+    },
+    cart:{
+        type:[cartSchema] //here we will not store the product object but we will store the id which will be the reference of the product object
+    }
+},{
+    strict:"throw",
+    timestamps:true
+})
+
+export const UserModel = model('eUser',userSchema)
+
 -------------------------
 create a product schema(models/ProductModel.js)
 -------------------------
@@ -77,6 +124,29 @@ const productSchema = new Schema({
 })
 export const ProductModel = model("<collection_name(very important....if wrong is given then a lot of problems we will caused and it should be singular)>",productSchema)
 
+
+example:
+import {Schema,model} from 'mongoose'
+
+const productSchema = new Schema({
+    productName:{
+        type:String,
+        required:[true,"product name required"]
+    },
+    price:{
+        type:Number,
+        required:[true,"price is required"]
+    },
+    brand:{
+        type:String,
+        required:[true,"required: brand"]
+    }
+},{
+    strict:"throw",
+    timestamps:true
+})
+
+export const ProductModel = model("ecomDB",productSchema)
 -------------------------
 
 ###################################################################
@@ -129,8 +199,8 @@ userApp.post("/auth",async (req,res)=>{
     }
     //check for password as well
     //since the password is hashed we are going to use the compare from bcryptjs
-    let passMatch = await compare(password,userDB.password)
-    if(passMatch === null){
+    let passMatch = await compare(password,userDB.password) //compare() : checks the passwords if they match like if the password is hashed then it converts to a normal one and then checks, returns a boolean
+    if(!passMatch){
         return res.status().json({})
     }
     //create signed tokens
@@ -222,7 +292,6 @@ userApp.delete('/users/:id',async(req,res)=>{
     res.status().json({message:"",payload:})
 })
 -------------------------------
-
 apis/productApi.js
 --------------------------
 import exp from 'express'
@@ -284,8 +353,22 @@ export function verifyToken(req,res,next){
     let decodedToken = jwt.verify(signedToken,"secret")
     next()
 }
+
+in userApi.js
+userApp.get('/users/:id', verifyToken, async(req,res)=>{ ... })
 -------------------------------
 ########################################################################
 ADDITIONAL THINGS TO IMPORT
 bcryptjs
 jsonwebtoken
+
+########################################################################
+Status Codes:
+200: OK (Success)
+201: Created (New data added)
+400: Bad Request (User error)
+401: Unauthorized (Login failed)
+404: Not Found
+500: Server Error
+########################################################################
+->Never hardcode secrets (like 'secret' or your MongoDB URL) in the code. Use a .env file and the dotenv package so hackers can't see them on GitHub.
